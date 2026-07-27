@@ -1,4 +1,4 @@
-# DSA Meets Design
+# Machine-coding-interview-questions platform
 ### The LLD interview gap nobody talks about — and the repo that fixes it.
 
 ---
