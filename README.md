@@ -3,7 +3,7 @@
 
 ---
 
-> 🚀 **Looking for the full library?** **[CodeJunction Pro →](https://topmate.io/jatin_kaushal24/2053177)** ships **100+ machine coding + LLD problems** with progressive extensions, dual-view editorials, 9 company tracks (Amazon, Flipkart, Razorpay, PhonePe, Meesho, Swiggy, Uber, Ola, Microsoft), and a 6-week prep playbook. This pilot has **20** of them.
+> 🚀 **Looking for the full library?** **[CodeJunction Pro →](https://topmate.io/jatin_kaushal24/2203994)** ships **100+ machine coding + LLD problems** with progressive extensions, dual-view editorials, 9 company tracks (Amazon, Flipkart, Razorpay, PhonePe, Meesho, Swiggy, Uber, Ola, Microsoft), and a 6-week prep playbook. This pilot has **20** of them.
 
 ---
 
@@ -256,7 +256,7 @@ This pilot has 20 problems. The full version — **CodeJunction Pro** — ships 
 - Solutions in **C++ and Java**
 - Cheat sheets and AI review prompts you can paste straight into Claude/ChatGPT
 
-**Get it → [CodeJunction Pro on Topmate](https://topmate.io/jatin_kaushal24/2053177)** · ₹799 one-time, GitHub access within 10 minutes of payment.
+**Get it → [CodeJunction Pro on Topmate](https://topmate.io/jatin_kaushal24/2203994)** · GitHub access within 10 minutes of payment.
 
 ---
 
