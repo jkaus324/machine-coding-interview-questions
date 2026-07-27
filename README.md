@@ -140,8 +140,8 @@ All five languages run through a single spec-driven test harness — see the arc
 
 ```bash
 # Clone the repo
-git clone https://github.com/jkaus324/DSA-Meet-Design-Pilot.git
-cd DSA-Meet-Design-Pilot
+git clone https://github.com/jkaus324/machine-coding-interview-questions.git
+cd machine-coding-interview-questions
 
 # Install dashboard dependencies
 cd dashboard && npm install && cd ..
@@ -158,7 +158,7 @@ API server → `http://localhost:3000`
 ## Project Structure
 
 ```
-DSA-Meet-Design-Pilot/
+machine-coding-interview-questions/
 ├── problems/
 │   ├── tier1-foundation/
 │   │   ├── 001-payment-ranker/
