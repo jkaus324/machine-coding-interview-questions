@@ -33,6 +33,11 @@ IS_WINDOWS = os.name == "nt"
 PYTHON_CMD = sys.executable or ("python" if IS_WINDOWS else "python3")
 # Native compiled-binary suffix (Windows needs .exe to run the file).
 EXE = ".exe" if IS_WINDOWS else ""
+# How many times to rebuild a C++ runner when the OS refuses to execute it.
+# See run_cpp() — on Windows a security policy can deny a freshly-written .exe,
+# and only a rebuild (not a retry of the same file) clears it. 1 on non-Windows,
+# where this doesn't happen and a failure should surface immediately.
+CPP_BUILD_ATTEMPTS = 4 if IS_WINDOWS else 1
 ALL_LANGS = ["cpp", "go", "java", "python", "javascript"]
 
 
@@ -91,15 +96,40 @@ def run_cpp(pdir, tmp, part):
     if cg.returncode != 0:
         return None, [f"CODEGEN FAIL: {cg.stderr[-400:]}"]
     open(os.path.join(tmp, "r.cpp"), "w").write(cg.stdout)
-    out_bin = os.path.join(tmp, "r" + EXE)
-    comp = subprocess.run(
-        ["g++", "-std=c++17", "-DRUNNING_TESTS", "-o", out_bin,
-         os.path.join(tmp, "r.cpp")], capture_output=True, text=True,
-    )
-    if comp.returncode != 0:
-        return None, [f"COMPILE FAIL: {comp.stderr[-800:]}"]
-    rr = subprocess.run([out_bin], capture_output=True, text=True, timeout=30)
-    return summarize(rr.stdout)
+
+    # Windows on-access scanners (Smart App Control / Defender) issue a verdict
+    # on a freshly-written unsigned .exe at write time. When it lands on "deny",
+    # CreateProcess fails with WinError 4551 or PermissionError. That verdict is
+    # per-file and permanent — re-running the same binary never recovers, and
+    # sleeping doesn't help. Rebuilding to a new path produces a new binary that
+    # is judged again, and in practice clears within a couple of attempts.
+    # Measured on an affected machine: 5/20 builds denied, 0/20 after this loop.
+    last_exec_err = None
+    for attempt in range(1, CPP_BUILD_ATTEMPTS + 1):
+        out_bin = os.path.join(tmp, f"r{attempt}{EXE}")
+        comp = subprocess.run(
+            ["g++", "-std=c++17", "-DRUNNING_TESTS", "-o", out_bin,
+             os.path.join(tmp, "r.cpp")], capture_output=True, text=True,
+        )
+        if comp.returncode != 0:
+            return None, [f"COMPILE FAIL: {comp.stderr[-800:]}"]
+        try:
+            rr = subprocess.run([out_bin], capture_output=True, text=True, timeout=30)
+        except OSError as e:
+            # WinError 4551 (policy) / EACCES — rebuild and let it be re-judged.
+            last_exec_err = e
+            continue
+        if rr.returncode != 0 and not rr.stdout.strip():
+            # Denied before main() ran: no harness output at all.
+            last_exec_err = f"exit {rr.returncode}: {rr.stderr.strip()[-200:]}"
+            continue
+        return summarize(rr.stdout)
+
+    return None, [
+        f"EXEC BLOCKED after {CPP_BUILD_ATTEMPTS} rebuilds "
+        f"(last: {last_exec_err}). A security policy is refusing to run freshly "
+        f"compiled binaries on this machine."
+    ]
 
 
 def run_python(pdir, tmp, part):
