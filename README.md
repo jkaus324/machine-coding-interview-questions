@@ -3,7 +3,7 @@
 
 ---
 
-> 🚀 **Looking for the full library?** **[CodeJunction Pro →](https://topmate.io/jatin_kaushal24/2203994)** ships **100+ machine coding + LLD problems** with progressive extensions, dual-view editorials, 9 company tracks (Amazon, Flipkart, Razorpay, PhonePe, Meesho, Swiggy, Uber, Ola, Microsoft), and a 6-week prep playbook. This pilot has **20** of them.
+> 🚀 **Ready for the full thing?** **[Crack LLD Interviews: Book + Practice Platform →](https://topmate.io/jatin_kaushal24/2203994)** pairs both halves: the **Design Patterns Handbook** (16 chapters that make you *feel* the problem before naming the pattern) and **DSA-Meet-Design/Pro** — **105 machine coding + LLD problems** with dual-view editorials, 9 company tracks and a 6-week playbook. **₹1,199 together vs ₹1,398 apart.** This pilot has **20** of the problems.
 
 ---
 
@@ -243,20 +243,36 @@ If you find a bug, open an issue. If a DESIGN.md explanation didn't click, open 
 
 ---
 
-## Want the full 100-problem library?
+## Want the full library?
 
-This pilot has 20 problems. The full version — **CodeJunction Pro** — ships 100+ machine coding + LLD problems pulled from real interviews at Amazon, Flipkart, Razorpay, PhonePe, Meesho, Swiggy, Uber, Ola, Microsoft, and Google.
+Reading builds recognition. Doing builds the reflex. You need both, so they're sold together:
+**[Crack LLD Interviews: Book + Practice Platform](https://topmate.io/jatin_kaushal24/2203994)** —
+**₹1,199** for the pack, versus **₹1,398** buying the two halves separately.
 
-**What you also get on top of the pilot:**
-- 5x more problems, tagged by company and difficulty
+### 📖 Part 1 — The Design Patterns Handbook
+
+16 chapters: one on foundational principles, then 15 patterns. Every chapter drops you into a
+real company with a small ticket and piles on requirements until your clean code curdles — so
+you feel the problem *before* it names the pattern you just reinvented. No `Shape → Circle`
+examples you'll never see again.
+
+This is the long-form version of the four primers in this repo.
+
+### ⚙️ Part 2 — DSA-Meet-Design/Pro (CodeJunction)
+
+The 105-problem library this pilot is a slice of, pulled from real interviews at Amazon,
+Flipkart, Razorpay, PhonePe, Meesho, Swiggy, Uber, Ola, Microsoft, and Google.
+
+- **5x more problems** than this pilot, tagged by company and difficulty
 - **Dual-view editorials** for every problem — LLD perspective + machine-coding perspective + the *Junction* analysis (where one wrong design choice in minute 5 kills the algorithm in minute 25)
 - **9 company-specific tracks** with curated problem sequences in interview order
 - **6-week prep playbook** with a structured weekly cadence
 - **10 design pattern primers** (vs 4 in the pilot)
-- Solutions in **C++ and Java**
+- Solutions in **C++, Java, Python, and JavaScript**
 - Cheat sheets and AI review prompts you can paste straight into Claude/ChatGPT
+- The same local dashboard you're already running
 
-**Get it → [CodeJunction Pro on Topmate](https://topmate.io/jatin_kaushal24/2203994)** · GitHub access within 10 minutes of payment.
+**Get both → [Crack LLD Interviews on Topmate](https://topmate.io/jatin_kaushal24/2203994)** · ₹1,199 · GitHub access within 10 minutes of payment.
 
 ---
 
