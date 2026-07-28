@@ -2,25 +2,31 @@
 
 // HINT: introduce an abstraction so new rules don't change existing code.
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 function reset_service() {
   // TODO: write your solution
   return null;
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 function notify_event(event, userIds, subscribedChannels) {
   // TODO: write your solution
   return null;
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
+function get_sent_log() {
+  // TODO: write your solution
+  return null;
+}
+
+// HINT: start from what this must return, then work backwards to the state it needs.
 function notify_priority(event, priority, userIds, subscribedChannels, minPriority) {
   // TODO: write your solution
   return null;
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 function notify_priority_level(priority) {
   // TODO: write your solution
   return null;
@@ -28,4 +34,4 @@ function notify_priority_level(priority) {
 
 // ── Export everything the test runner needs (do not remove) ──
 // If you add classes (e.g. strategy subclasses), add them here too.
-module.exports = { reset_service, notify_event, notify_priority, notify_priority_level };
+module.exports = { reset_service, notify_event, get_sent_log, notify_priority, notify_priority_level };

@@ -76,3 +76,112 @@
   call: getState
   args: []
   expect_equals: "Idle"
+
+# ── Partial payment must NOT unlock dispensing ───────────────────────────────
+
+- name: reset_p1_e
+  call: reset_service
+  args: []
+
+- name: select_cola_e
+  call: selectItem
+  args: ["Cola"]
+
+- name: insert_partial_e
+  comment: "10 of a 25 item — not enough"
+  call: insertMoney
+  args: [10.0]
+
+- name: state_still_pending_partial
+  comment: "Any-money-unlocks-dispense implementations fail here"
+  call: getState
+  args: []
+  expect_equals: "PaymentPending"
+
+- name: dispense_refused_when_underpaid
+  comment: "dispense() is a no-op unless the machine is Dispensing"
+  call: dispense
+  args: []
+
+- name: state_unchanged_after_refused_dispense
+  call: getState
+  args: []
+  expect_equals: "PaymentPending"
+
+# ── Payments accumulate until the price is met ───────────────────────────────
+
+- name: insert_remainder_e
+  comment: "10 + 15 = 25 — now the price is covered"
+  call: insertMoney
+  args: [15.0]
+
+- name: state_dispensing_after_full_payment
+  call: getState
+  args: []
+  expect_equals: "Dispensing"
+
+- name: dispense_now_e
+  call: dispense
+  args: []
+
+- name: state_idle_after_successful_dispense
+  call: getState
+  args: []
+  expect_equals: "Idle"
+
+# ── Re-selecting mid-purchase is ignored, and the original item is kept ──────
+
+- name: reset_p1_f
+  call: reset_service
+  args: []
+
+- name: select_cola_f
+  call: selectItem
+  args: ["Cola"]
+
+- name: select_chips_ignored
+  comment: "Machine is PaymentPending — a second selection must not take effect"
+  call: selectItem
+  args: ["Chips"]
+
+- name: insert_chips_price_f
+  comment: "15 covers Chips but not Cola — proves Cola is still the selection"
+  call: insertMoney
+  args: [15.0]
+
+- name: state_pending_proves_cola_still_selected
+  call: getState
+  args: []
+  expect_equals: "PaymentPending"
+
+# ── Cancel must clear the inserted money, not just the state ────────────────
+
+- name: reset_p1_g
+  call: reset_service
+  args: []
+
+- name: select_cola_g
+  call: selectItem
+  args: ["Cola"]
+
+- name: insert_10_g
+  call: insertMoney
+  args: [10.0]
+
+- name: cancel_g
+  call: cancel
+  args: []
+
+- name: select_cola_again_g
+  call: selectItem
+  args: ["Cola"]
+
+- name: insert_15_g
+  comment: "If cancel had kept the 10, this 15 would total 25 and dispense"
+  call: insertMoney
+  args: [15.0]
+
+- name: state_pending_proves_refund
+  call: getState
+  args: []
+  expect_equals: "PaymentPending"

@@ -228,11 +228,11 @@ def hint_for_fn(fn):
         parse_list(p.get("type", "")) == "factory" for p in fn.get("params", []) or []
     )
     if has_factory_list:
-        return "HINT: think about how to compose multiple criteria into a single decision."
+        return "HINT: you're handed a list of interchangeable behaviours — call them all through one interface."
     if any("filter" in name.lower() or "prefer" in p.get("name", "").lower()
            for p in fn.get("params", []) or []):
-        return "HINT: a boolean flag changes ranking — handle it as a separate piece you can chain."
-    return "HINT: pick the field that defines 'better' for this ranking and compare the two."
+        return "HINT: a flag that changes behaviour is its own concern — keep it a separate piece you can chain."
+    return "HINT: start from what this must return, then work backwards to the state it needs."
 
 
 # ─── per-mode/per-lang emitters ──────────────────────────────────────────────
@@ -560,8 +560,8 @@ def emit_cpp(spec, part_num, mode):
         out.append(cpp_struct(types, spec))
         if needs_factory_iface(spec, fn_names):
             out.append(cpp_factory_iface_decl(spec))
-        out.append("// HINT: introduce an abstraction so new ranking rules don't change existing code.")
-        out.append("// HINT: keep the comparator small — one rule per class.")
+        out.append("// HINT: introduce an abstraction so new variants don't change existing code.")
+        out.append("// HINT: keep each piece small — one responsibility per class.")
         out.append("")
         for name in fn_names:
             fn = fns[name]
@@ -613,7 +613,7 @@ def emit_java(spec, part_num, mode):
         out.append(java_pojo(types, spec))
         if needs_factory_iface(spec, fn_names):
             out.append(java_factory_iface_decl(spec))
-        out.append("// HINT: introduce an abstraction so new ranking rules don't change existing code.")
+        out.append("// HINT: introduce an abstraction so new variants don't change existing code.")
         out.append("public class Solution {")
         for name in fn_names:
             fn = fns[name]
@@ -659,7 +659,7 @@ def emit_python(spec, part_num, mode):
     elif mode == "guided":
         out.append("# Data class (given).")
         out.append(py_dataclass(types, spec))
-        out.append("# HINT: introduce an abstraction so new ranking rules don't change existing code.")
+        out.append("# HINT: introduce an abstraction so new variants don't change existing code.")
         out.append("")
         for name in fn_names:
             fn = fns[name]

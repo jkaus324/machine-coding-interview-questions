@@ -14,6 +14,16 @@ struct User {
     vector<string> subscribedChannels;
 };
 
+// ─── Delivery Log ───────────────────────────────────────────────────────────
+// Every actual delivery is recorded as "<channel>:<userId>". This is what the
+// tests assert on — it makes fan-out and filtering observable.
+
+static vector<string> SENT_LOG;
+
+static void recordSend(const string& channel, const string& userId) {
+    SENT_LOG.push_back(channel + ":" + userId);
+}
+
 // ─── Priority Helpers ───────────────────────────────────────────────────────
 
 const vector<string> PRIORITY_ORDER = {"promotional", "info", "critical"};
@@ -21,7 +31,7 @@ const vector<string> PRIORITY_ORDER = {"promotional", "info", "critical"};
 int priorityLevel(const string& p) {
     for (int i = 0; i < (int)PRIORITY_ORDER.size(); i++)
         if (PRIORITY_ORDER[i] == p) return i;
-    return 0;
+    return 0;                      // unknown -> treat as lowest
 }
 
 // ─── Observer Interface ─────────────────────────────────────────────────────
@@ -42,13 +52,12 @@ public:
     string channelName() const override { return "email"; }
 
     void send(const string& userId, const string& message) override {
-        cout << "[EMAIL] To: " << userId << " — " << message << endl;
+        recordSend("email", userId);
     }
 
     void update(const string& event, const string& priority,
                 const User& user) override {
-        cout << "[EMAIL] " << user.email << ": " << event
-             << " [" << priority << "]" << endl;
+        recordSend("email", user.id);
     }
 };
 
@@ -57,13 +66,12 @@ public:
     string channelName() const override { return "sms"; }
 
     void send(const string& userId, const string& message) override {
-        cout << "[SMS] To: " << userId << " — " << message << endl;
+        recordSend("sms", userId);
     }
 
     void update(const string& event, const string& priority,
                 const User& user) override {
-        cout << "[SMS] " << user.phone << ": " << event
-             << " [" << priority << "]" << endl;
+        recordSend("sms", user.id);
     }
 };
 
@@ -72,17 +80,17 @@ public:
     string channelName() const override { return "push"; }
 
     void send(const string& userId, const string& message) override {
-        cout << "[PUSH] To: " << userId << " — " << message << endl;
+        recordSend("push", userId);
     }
 
     void update(const string& event, const string& priority,
                 const User& user) override {
-        cout << "[PUSH] " << user.id << ": " << event
-             << " [" << priority << "]" << endl;
+        recordSend("push", user.id);
     }
 };
 
 // ─── Priority Filter Decorator (Part 2) ─────────────────────────────────────
+// Wraps ANY observer. The concrete notifiers above never learn priority exists.
 
 class PriorityFilteredObserver : public NotificationObserver {
 private:
@@ -106,7 +114,7 @@ public:
     }
 };
 
-// ─── Notification Manager ───────────────────────────────────────────────────
+// ─── Notification Manager (the Subject) ─────────────────────────────────────
 
 class NotificationManager {
 private:
@@ -125,7 +133,7 @@ public:
             observers.end());
     }
 
-    // Part 1: simple notify — sends message to each user's subscribed channels
+    // Part 1 — fan out to each user's subscribed channels
     void notify(const string& event, const vector<User>& users) {
         for (auto& user : users) {
             for (auto* obs : observers) {
@@ -137,7 +145,7 @@ public:
         }
     }
 
-    // Part 2: priority-aware notify
+    // Part 2 — priority-aware fan out
     void notifyAll(const string& event, const string& priority,
                    const vector<User>& users) {
         for (auto& user : users) {
@@ -151,17 +159,21 @@ public:
     }
 };
 
-// ─── Free Function: Part 1 (2-arg) ─────────────────────────────────────────
+// ─── Free Function: Part 1 ─────────────────────────────────────────────────
 
 void notify(const string& event, const vector<User>& users) {
+    EmailNotifier email;
+    SMSNotifier   sms;
+    PushNotifier  push;
+
     NotificationManager mgr;
-    mgr.subscribe(new EmailNotifier());
-    mgr.subscribe(new SMSNotifier());
-    mgr.subscribe(new PushNotifier());
+    mgr.subscribe(&email);
+    mgr.subscribe(&sms);
+    mgr.subscribe(&push);
     mgr.notify(event, users);
 }
 
-// ─── Free Function: Part 2 (4-arg with priority filtering) ──────────────────
+// ─── Free Function: Part 2 (priority filtering) ────────────────────────────
 
 void notify(const string& event, const string& priority,
             const vector<User>& users,
@@ -169,12 +181,12 @@ void notify(const string& event, const string& priority,
     string minP = userMinPriority.count("*") ? userMinPriority.at("*") : "promotional";
 
     EmailNotifier email;
-    SMSNotifier sms;
-    PushNotifier push;
+    SMSNotifier   sms;
+    PushNotifier  push;
 
     PriorityFilteredObserver fe(&email, minP);
-    PriorityFilteredObserver fs(&sms, minP);
-    PriorityFilteredObserver fp(&push, minP);
+    PriorityFilteredObserver fs(&sms,   minP);
+    PriorityFilteredObserver fp(&push,  minP);
 
     NotificationManager mgr;
     mgr.subscribe(&fe);
@@ -183,61 +195,70 @@ void notify(const string& event, const string& priority,
     mgr.notifyAll(event, priority, users);
 }
 
-// ─── Spec-test wrappers ────────────────────────────────────────────────────
+// ─── Entry points the test harness calls (from spec.yaml) ───────────────────
 
-void reset_service() {}
-
-void notify_event(const string& event, const vector<string>& userIds,
-                  const vector<string>& subscribedChannels) {
+static vector<User> buildUsers(const vector<string>& userIds,
+                               const vector<string>& subscribedChannels) {
     vector<User> users;
     for (size_t i = 0; i < userIds.size(); i++) {
         User u;
-        u.id = userIds[i];
+        u.id    = userIds[i];
         u.email = userIds[i] + "@test.com";
         u.phone = "+1-555-0000";
         u.subscribedChannels = subscribedChannels;
         users.push_back(u);
     }
-    notify(event, users);
+    return users;
+}
+
+void reset_service() {
+    SENT_LOG.clear();
+}
+
+void notify_event(const string& event, const vector<string>& userIds,
+                  const vector<string>& subscribedChannels) {
+    notify(event, buildUsers(userIds, subscribedChannels));
 }
 
 void notify_priority(const string& event, const string& priority,
                      const vector<string>& userIds,
                      const vector<string>& subscribedChannels,
                      const string& minPriority) {
-    vector<User> users;
-    for (size_t i = 0; i < userIds.size(); i++) {
-        User u;
-        u.id = userIds[i];
-        u.email = userIds[i] + "@test.com";
-        u.phone = "+1-555-0000";
-        u.subscribedChannels = subscribedChannels;
-        users.push_back(u);
-    }
     unordered_map<string, string> prefs;
     if (!minPriority.empty()) prefs["*"] = minPriority;
-    notify(event, priority, users, prefs);
+    notify(event, priority, buildUsers(userIds, subscribedChannels), prefs);
 }
 
 int notify_priority_level(const string& priority) {
     return priorityLevel(priority);
 }
 
+vector<string> get_sent_log() {
+    return SENT_LOG;
+}
+
+// ─── Local demo — the harness defines RUNNING_TESTS, so this is skipped ─────
+
 #ifndef RUNNING_TESTS
 int main() {
-    // Part 1 demo
     User u1 = {"user1", "user1@example.com", "+91-9000000001", {"email", "sms"}};
     User u2 = {"user2", "user2@example.com", "+91-9000000002", {"push"}};
-    cout << "=== Part 1: Basic Notification ===" << endl;
-    notify("Order shipped", {u1, u2});
 
-    // Part 2 demo
-    cout << "\n=== Part 2: Priority Filtering ===" << endl;
+    cout << "=== Part 1: Basic Notification ===" << endl;
+    reset_service();
+    notify("Order shipped", {u1, u2});
+    for (auto& s : get_sent_log()) cout << "  sent -> " << s << endl;
+
+    cout << "\n=== Part 2: Priority Filtering (min = info) ===" << endl;
+    reset_service();
     unordered_map<string, string> prefs = {{"*", "info"}};
     notify("System update available", "info", {u1, u2}, prefs);
+    for (auto& s : get_sent_log()) cout << "  sent -> " << s << endl;
 
-    cout << "\n=== Part 2: Promotional (filtered by info+ pref) ===" << endl;
+    cout << "\n=== Part 2: Promotional blocked by info+ pref ===" << endl;
+    reset_service();
     notify("50% off sale!", "promotional", {u1, u2}, prefs);
+    cout << "  deliveries: " << get_sent_log().size() << endl;
 
     return 0;
 }

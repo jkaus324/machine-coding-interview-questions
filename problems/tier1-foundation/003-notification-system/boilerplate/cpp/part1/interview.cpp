@@ -11,6 +11,7 @@ using namespace std;
 // Required free functions:
 //   void reset_service();
 //   void notify_event(string event, vector<string> userIds, vector<string> subscribedChannels);
+//   vector<string> get_sent_log();
 
 void reset_service() {
     // TODO: write your solution
@@ -20,4 +21,9 @@ void reset_service() {
 void notify_event(string event, vector<string> userIds, vector<string> subscribedChannels) {
     // TODO: write your solution
     // nothing to return
+}
+
+vector<string> get_sent_log() {
+    // TODO: write your solution
+    return {};
 }

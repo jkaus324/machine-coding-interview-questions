@@ -15,6 +15,10 @@ def notify_event(event, userIds, subscribedChannels):
     # TODO: implement this
     return None
 
+def get_sent_log():
+    # TODO: implement this
+    return None
+
 def notify_priority(event, priority, userIds, subscribedChannels, minPriority):
     # TODO: implement this
     return None

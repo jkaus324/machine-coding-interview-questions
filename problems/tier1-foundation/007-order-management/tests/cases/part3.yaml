@@ -9,6 +9,7 @@
 - name: create_o_p3
   call: create_order_simple
   args: ["P1", 2, 200.0]
+  expect_equals: "ORD-1"
 
 - name: attach
   call: om_attach_observer
@@ -17,6 +18,7 @@
 - name: confirm_p3
   call: confirm_order
   args: ["ORD-1"]
+  expect_equals: true
 
 - name: count_one
   call: om_observer_count
@@ -31,6 +33,7 @@
 - name: ship_p3
   call: ship_order
   args: ["ORD-1"]
+  expect_equals: true
 
 - name: count_two
   call: om_observer_count

@@ -26,6 +26,13 @@ functions:
       - { name: priority, type: string }
     returns: int
 
+  # Delivery log — one entry per notification actually sent, in send order,
+  # formatted "<channel>:<userId>". reset_service() clears it. This is what
+  # makes fan-out and priority filtering observable to the tests.
+  - name: get_sent_log
+    params: []
+    returns: "list<string>"
+
 parts:
-  1: { name: "Basic notify (no throw)", functions: [reset_service, notify_event] }
-  2: { name: "Priority filtering",      functions: [notify_priority, notify_priority_level] }
+  1: { name: "Multi-channel fan-out", functions: [reset_service, notify_event, get_sent_log] }
+  2: { name: "Priority filtering",    functions: [notify_priority, notify_priority_level, get_sent_log] }

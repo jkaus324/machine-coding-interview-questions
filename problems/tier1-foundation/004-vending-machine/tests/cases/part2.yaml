@@ -90,3 +90,67 @@
   call: vm_get_quantity
   args: ["Cola"]
   expect_equals: 10
+
+# ── Maintenance cannot be entered mid-purchase ──────────────────────────────
+
+- name: reset_p2_f
+  call: reset_service
+  args: []
+
+- name: select_before_maint
+  call: selectItem
+  args: ["Cola"]
+
+- name: enter_maint_during_purchase
+  comment: "Valid pin, but the machine is not Idle — must be refused"
+  call: enterMaintenance
+  args: ["1234"]
+
+- name: state_still_payment_pending
+  call: getState
+  args: []
+  expect_equals: "PaymentPending"
+
+# ── Wrong pin cannot exit maintenance ───────────────────────────────────────
+
+- name: reset_p2_g
+  call: reset_service
+  args: []
+
+- name: enter_for_wrong_exit
+  call: enterMaintenance
+  args: ["1234"]
+
+- name: exit_with_wrong_pin
+  call: exitMaintenance
+  args: ["0000"]
+
+- name: state_locked_in_maintenance
+  call: getState
+  args: []
+  expect_equals: "Maintenance"
+
+# ── Restocking an item the machine has never carried creates it ─────────────
+
+- name: reset_p2_h
+  call: reset_service
+  args: []
+
+- name: water_unknown_before
+  comment: "-1 means the machine does not carry this item at all"
+  call: vm_get_quantity
+  args: ["Water"]
+  expect_equals: -1
+
+- name: enter_for_new_item
+  call: enterMaintenance
+  args: ["1234"]
+
+- name: restock_new_item
+  call: restock
+  args: ["Water", 7]
+
+- name: water_qty_after_restock
+  call: vm_get_quantity
+  args: ["Water"]
+  expect_equals: 7

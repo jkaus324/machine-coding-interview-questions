@@ -8,6 +8,10 @@ def notify_event(event, userIds, subscribedChannels):
     # TODO: write your solution
     return None
 
+def get_sent_log():
+    # TODO: write your solution
+    return None
+
 def notify_priority(event, priority, userIds, subscribedChannels, minPriority):
     # TODO: write your solution
     return None

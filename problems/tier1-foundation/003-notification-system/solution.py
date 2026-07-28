@@ -5,6 +5,14 @@ from abc import ABC, abstractmethod
 
 PRIORITY_ORDER = ["promotional", "info", "critical"]
 
+# Every actual delivery is recorded as "<channel>:<userId>". This is what the
+# tests assert on — it makes fan-out and filtering observable.
+SENT_LOG = []
+
+
+def _record_send(channel, user_id):
+    SENT_LOG.append(f"{channel}:{user_id}")
+
 
 def priorityLevel(p):
     if p in PRIORITY_ORDER:
@@ -39,10 +47,10 @@ class EmailNotifier(NotificationObserver):
         return "email"
 
     def send(self, userId, message):
-        pass
+        _record_send("email", userId)
 
     def update(self, event, priority, user):
-        pass
+        _record_send("email", user.id)
 
 
 class SMSNotifier(NotificationObserver):
@@ -50,10 +58,10 @@ class SMSNotifier(NotificationObserver):
         return "sms"
 
     def send(self, userId, message):
-        pass
+        _record_send("sms", userId)
 
     def update(self, event, priority, user):
-        pass
+        _record_send("sms", user.id)
 
 
 class PushNotifier(NotificationObserver):
@@ -61,13 +69,15 @@ class PushNotifier(NotificationObserver):
         return "push"
 
     def send(self, userId, message):
-        pass
+        _record_send("push", userId)
 
     def update(self, event, priority, user):
-        pass
+        _record_send("push", user.id)
 
 
 class PriorityFilteredObserver(NotificationObserver):
+    """Wraps ANY observer. The concrete notifiers never learn priority exists."""
+
     def __init__(self, inner, minPriority):
         self.inner = inner
         self.minPriority = minPriority
@@ -123,22 +133,34 @@ def notify_with_priority(event, priority, users, userMinPriority):
     mgr.notifyAll(event, priority, users)
 
 
+# ─── Entry points the test harness calls (from spec.yaml) ───────────────────
+
+
+def _build_users(userIds, subscribedChannels):
+    return [
+        User(uid, f"{uid}@test.com", "+1-555-0000", list(subscribedChannels))
+        for uid in userIds
+    ]
+
+
 def reset_service():
-    pass
+    SENT_LOG.clear()
 
 
 def notify_event(event, userIds, subscribedChannels):
-    users = [User(uid, f"{uid}@test.com", "+1-555-0000", list(subscribedChannels)) for uid in userIds]
-    notify(event, users)
+    notify(event, _build_users(userIds, subscribedChannels))
 
 
 def notify_priority(event, priority, userIds, subscribedChannels, minPriority):
-    users = [User(uid, f"{uid}@test.com", "+1-555-0000", list(subscribedChannels)) for uid in userIds]
     prefs = {}
     if minPriority:
         prefs["*"] = minPriority
-    notify_with_priority(event, priority, users, prefs)
+    notify_with_priority(event, priority, _build_users(userIds, subscribedChannels), prefs)
 
 
 def notify_priority_level(p):
     return priorityLevel(p)
+
+
+def get_sent_log():
+    return list(SENT_LOG)

@@ -133,11 +133,12 @@ public:
     }
 
     void enterMaintenance(const string& pin) {
-        if (pin == operatorPin) {
+        // Only from Idle — entering mid-purchase would strand the customer's money.
+        if (pin == operatorPin && getState() == "Idle") {
             setState(&maintenance);
             cout << "Entered maintenance mode." << endl;
         } else {
-            cout << "Invalid PIN." << endl;
+            cout << "Invalid PIN or machine is busy." << endl;
         }
     }
 

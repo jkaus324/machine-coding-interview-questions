@@ -7,8 +7,10 @@
   args: [0, "Alice", "BILLING"]
 
 - name: assign_first
+  comment: "Only agent 0 exists, so round-robin must land on it"
   call: ir_assign_issue_round_robin
   args: ["Test", "BILLING", "HIGH"]
+  expect_equals: 0
 
 - name: state_open_initially
   call: ir_get_issue_state

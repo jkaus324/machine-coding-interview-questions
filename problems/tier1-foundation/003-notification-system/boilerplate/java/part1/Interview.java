@@ -13,4 +13,9 @@ public class Solution {
         // nothing to return
     }
 
+    public static List<String> get_sent_log() {
+        // TODO: write your solution
+        return null;
+    }
+
 }

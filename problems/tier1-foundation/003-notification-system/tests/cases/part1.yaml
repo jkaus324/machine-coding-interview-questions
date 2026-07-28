@@ -2,21 +2,77 @@
   call: reset_service
   args: []
 
+# ── Fan-out: every user gets every channel they subscribed to ────────────────
+
 - name: notify_three_users
-  comment: "Notify multiple users on multiple channels — no throw"
+  comment: "3 users x 3 channels = 9 deliveries, in user-then-channel order"
   call: notify_event
   args:
     - "Order shipped"
     - ["user1", "user2", "user3"]
     - ["email", "sms", "push"]
 
+- name: log_three_users
+  call: get_sent_log
+  args: []
+  expect_size: 9
+  expect:
+    - "email:user1"
+    - "sms:user1"
+    - "push:user1"
+    - "email:user2"
+    - "sms:user2"
+    - "push:user2"
+    - "email:user3"
+    - "sms:user3"
+    - "push:user3"
+
+# ── Channel gating: only subscribed channels fire ───────────────────────────
+
+- name: reset_before_single_channel
+  call: reset_service
+  args: []
+
+- name: notify_sms_only
+  comment: "Users subscribed to sms alone must not receive email or push"
+  call: notify_event
+  args:
+    - "Ping"
+    - ["alice", "bob"]
+    - ["sms"]
+
+- name: log_sms_only
+  call: get_sent_log
+  args: []
+  expect_size: 2
+  expect:
+    - "sms:alice"
+    - "sms:bob"
+
+# ── Empty user list ─────────────────────────────────────────────────────────
+
+- name: reset_before_empty
+  call: reset_service
+  args: []
+
 - name: notify_empty_users
-  comment: "Empty user list — no throw"
+  comment: "No users — nothing is sent"
   call: notify_event
   args:
     - "Event"
     - []
     - ["email"]
+
+- name: log_empty_users
+  call: get_sent_log
+  args: []
+  expect_size: 0
+
+# ── Single user on all channels ─────────────────────────────────────────────
+
+- name: reset_before_multi_channel
+  call: reset_service
+  args: []
 
 - name: notify_multi_channel_user
   call: notify_event
@@ -24,3 +80,23 @@
     - "Flash sale"
     - ["u1"]
     - ["email", "sms", "push"]
+
+- name: log_multi_channel_user
+  call: get_sent_log
+  args: []
+  expect_size: 3
+  expect:
+    - "email:u1"
+    - "sms:u1"
+    - "push:u1"
+
+# ── reset_service actually clears ───────────────────────────────────────────
+
+- name: reset_clears_log
+  call: reset_service
+  args: []
+
+- name: log_after_reset
+  call: get_sent_log
+  args: []
+  expect_size: 0

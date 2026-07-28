@@ -52,14 +52,27 @@ DSA-Meet-Design-Pilot/
 │   │   └── XXX-problem-name/
 │   │       ├── README.md       # Problem statement (LeetCode tone)
 │   │       ├── DESIGN.md       # Why this pattern, what breaks without it
-│   │       ├── boilerplate/cpp/ # interview / guided / learning × per part
-│   │       └── tests/cpp/       # GoogleTest suites per part
+│   │       ├── AI_REVIEW_PROMPT.md        # Tailored Claude review prompt
+│   │       ├── spec.yaml                  # Interface contract — drives ALL languages
+│   │       ├── solution.{cpp,go,java,py,js}   # Reference solution per language
+│   │       ├── boilerplate/<lang>/partN/  # interview / guided / learning stubs
+│   │       └── tests/cases/partN.yaml     # Language-agnostic test cases
 │   └── tier2-intermediate/     # Intermediate-level problems
+├── harness/                    # ONE generic runner per language (spec-driven)
+│   ├── cpp/codegen.py          # compiled langs: generate a runner per part
+│   ├── go/codegen.py
+│   ├── java/Runner.java        # interpreted langs: read spec + cases at runtime
+│   ├── python/runner.py
+│   └── javascript/runner.js
 ├── patterns/                   # Design pattern primers (GFG tone)
 ├── docs/_data/problems.yml     # Problem registry
 ├── dashboard/                  # React + Express dashboard app
 │   ├── server.js               # Express API server
 │   └── src/                    # React frontend
+├── scripts/
+│   ├── gen_stubs.py            # Regenerate boilerplate from spec.yaml
+│   └── stress_test.py          # Verify every reference solution × language
+├── e2e/                        # Plain-English Playwright stories
 ├── progress.json               # Local user progress (gitignored)
 └── package.json                # Root — proxies to dashboard/
 ```
@@ -73,26 +86,67 @@ npm run build        # Build dashboard for production
 npm start            # Start production server
 ```
 
+```bash
+# Content tooling
+python3 scripts/gen_stubs.py <problem-dir> --force      # regenerate boilerplate from spec.yaml
+python3 scripts/gen_stubs.py --all --lang go --force    # ...for one language, every problem
+python3 scripts/stress_test.py                          # every reference solution × language
+python3 scripts/stress_test.py --problem 004 --lang cpp # narrow it down
+```
+
 ### Prerequisites
-- Node.js 18+
-- g++ with C++17 support
-- GoogleTest installed
+Node.js 18+ is the only hard requirement. Install a language toolchain only for the
+language(s) you want to run — the dashboard auto-detects what's present and disables
+submit for the rest.
+
+- **Node.js 18+** — required (dashboard + JavaScript runner)
+- **g++** with C++17 support — for C++
+- **Go 1.21+** — for Go
+- **JDK 17+** (`javac`) — for Java
+- **Python 3** — for Python, and for `gen_stubs.py` / `stress_test.py` / the C++ + Go codegen
+
+GoogleTest is NOT required — it was removed when tests moved to the spec-driven harness.
+
+> Windows note: `stress_test.py` prints ✓/✗ and dies with `UnicodeEncodeError` under the
+> default cp1252 console. Run it as `PYTHONIOENCODING=utf-8 python scripts/stress_test.py`.
 
 ## Problem Format Rules
 
 ### Structure
 - Every problem has **2-4 parts** (base requirement + 1-3 extensions), depending on the problem
 - Parts unlock progressively — Part N+1 only unlocks after Part N tests pass
-- Problem folders are **sequentially numbered**: `001-`, `002-`, `003-`, etc. No gaps.
+- Problem folders are **sequentially numbered**: `001-`, `002-`, `003-`, etc. New problems take
+  the next free number. (`002` is currently vacant — a retired problem. Don't reuse it silently;
+  either fill it deliberately or leave it.)
 
 ### Required Files Per Problem
 - `README.md` — Problem statement. **Tone: LeetCode** (precise, formal, constraint-driven)
 - `DESIGN.md` — Pattern explanation, what breaks without it. **Tone: GFG** (educational, thorough, beginner-friendly)
-- `boilerplate/cpp/` — All 3 difficulty modes must be present for every part:
+- `spec.yaml` — The interface contract: types, function signatures, and which functions belong
+  to which part. This drives every language — boilerplate, runners, and codegen all read it.
+- `solution.{cpp,go,java,py,js}` — Reference solution per language. All must pass every case.
+- `boilerplate/<lang>/partN/` — All 3 difficulty modes for every part, **generated** by
+  `gen_stubs.py` (don't hand-edit; change `spec.yaml` and regenerate):
   - **Interview** — Blank slate, just problem statement and data types
   - **Guided** — Key interfaces defined, `// HINT:` comments, no pattern names
   - **Learning** — Full class structure, `// TODO:` inside method bodies only
-- `tests/cpp/` — GoogleTest suites, one per part
+- `tests/cases/partN.yaml` — Language-agnostic test cases, one file per part. Every language
+  runs these same cases; there are no per-language test files.
+
+### Test Case Rules
+
+**Every part must have at least one real assertion.** A case with no `expect*` key only
+proves the function didn't throw — a part built entirely from those can be passed with empty
+function bodies, which defeats the point of the problem.
+
+- Assertion keys: `expect`, `expect_equals`, `expect_size`, `expect_close`, `expect_field`,
+  `also`, `expect_throws`
+- Pair `expect` with `expect_size` when checking a list — `expect` alone only compares the
+  elements you listed and ignores extras
+- Void setup calls (`reset_service`, seeding state) legitimately assert nothing; the
+  *behaviour they set up* is what must be asserted afterwards
+- If a behaviour isn't observable, add a getter to `spec.yaml` and implement it in all five
+  reference solutions rather than leaving the case unasserted
 
 ### Problem Quality Bar
 - Must be based on **real interview questions** asked at actual companies

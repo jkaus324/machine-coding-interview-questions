@@ -13,6 +13,11 @@ public class Solution {
         // nothing to return
     }
 
+    public static List<String> get_sent_log() {
+        // TODO: write your solution
+        return null;
+    }
+
     public static void notify_priority(String event, String priority, List<String> userIds, List<String> subscribedChannels, String minPriority) {
         // TODO: write your solution
         // nothing to return

@@ -2,8 +2,10 @@
   call: reset_service
   args: []
 
+# ── Event at/above the threshold gets through ───────────────────────────────
+
 - name: critical_to_all
-  comment: "Critical event sends regardless of pref"
+  comment: "critical event, min=critical — delivered"
   call: notify_priority
   args:
     - "CRITICAL: System down"
@@ -12,8 +14,21 @@
     - ["email"]
     - "critical"
 
+- name: log_critical_delivered
+  call: get_sent_log
+  args: []
+  expect_size: 1
+  expect:
+    - "email:u1"
+
+# ── Event below the threshold is dropped (this is the Decorator working) ────
+
+- name: reset_before_promotional
+  call: reset_service
+  args: []
+
 - name: promotional_filtered
-  comment: "Promotional blocked when min=info — no throw"
+  comment: "promotional event, min=info — must be dropped, not delivered"
   call: notify_priority
   args:
     - "50% off sale"
@@ -22,8 +37,39 @@
     - ["email"]
     - "info"
 
+- name: log_promotional_blocked
+  comment: "Zero deliveries — an unfiltered implementation fails here"
+  call: get_sent_log
+  args: []
+  expect_size: 0
+
+- name: reset_before_info_under_critical
+  call: reset_service
+  args: []
+
+- name: info_below_critical_filtered
+  comment: "info event, min=critical — dropped"
+  call: notify_priority
+  args:
+    - "Update available"
+    - "info"
+    - ["u1"]
+    - ["email", "sms"]
+    - "critical"
+
+- name: log_info_below_critical_blocked
+  call: get_sent_log
+  args: []
+  expect_size: 0
+
+# ── Empty preference defaults to the lowest threshold (everything passes) ───
+
+- name: reset_before_empty_pref
+  call: reset_service
+  args: []
+
 - name: empty_pref
-  comment: "Empty min priority defaults — no throw"
+  comment: "No min priority set — defaults to promotional, so info is delivered"
   call: notify_priority
   args:
     - "Update available"
@@ -31,6 +77,41 @@
     - ["u1"]
     - ["email"]
     - ""
+
+- name: log_empty_pref_delivered
+  call: get_sent_log
+  args: []
+  expect_size: 1
+  expect:
+    - "email:u1"
+
+# ── Filtering composes with multi-user, multi-channel fan-out ───────────────
+
+- name: reset_before_fanout
+  call: reset_service
+  args: []
+
+- name: filtered_fanout
+  comment: "info event at min=info across 2 users x 2 channels — all delivered"
+  call: notify_priority
+  args:
+    - "Scheduled maintenance"
+    - "info"
+    - ["u1", "u2"]
+    - ["email", "sms"]
+    - "info"
+
+- name: log_filtered_fanout
+  call: get_sent_log
+  args: []
+  expect_size: 4
+  expect:
+    - "email:u1"
+    - "sms:u1"
+    - "email:u2"
+    - "sms:u2"
+
+# ── Priority ordering ───────────────────────────────────────────────────────
 
 - name: priority_level_promotional
   call: notify_priority_level

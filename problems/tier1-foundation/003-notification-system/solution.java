@@ -23,22 +23,23 @@ interface NotificationObserver {
 
 class EmailNotifier implements NotificationObserver {
     public String channelName() { return "email"; }
-    public void send(String userId, String message) {}
-    public void update(String event, String priority, User user) {}
+    public void send(String userId, String message) { Solution.recordSend("email", userId); }
+    public void update(String event, String priority, User user) { Solution.recordSend("email", user.id); }
 }
 
 class SMSNotifier implements NotificationObserver {
     public String channelName() { return "sms"; }
-    public void send(String userId, String message) {}
-    public void update(String event, String priority, User user) {}
+    public void send(String userId, String message) { Solution.recordSend("sms", userId); }
+    public void update(String event, String priority, User user) { Solution.recordSend("sms", user.id); }
 }
 
 class PushNotifier implements NotificationObserver {
     public String channelName() { return "push"; }
-    public void send(String userId, String message) {}
-    public void update(String event, String priority, User user) {}
+    public void send(String userId, String message) { Solution.recordSend("push", userId); }
+    public void update(String event, String priority, User user) { Solution.recordSend("push", user.id); }
 }
 
+/** Wraps ANY observer. The concrete notifiers never learn priority exists. */
 class PriorityFilteredObserver implements NotificationObserver {
     private final NotificationObserver inner;
     private final String minPriority;
@@ -92,43 +93,56 @@ public class Solution {
     public static final List<String> PRIORITY_ORDER =
             Arrays.asList("promotional", "info", "critical");
 
+    // Every actual delivery is recorded as "<channel>:<userId>". This is what
+    // the tests assert on — it makes fan-out and filtering observable.
+    private static final List<String> SENT_LOG = new ArrayList<>();
+
+    static void recordSend(String channel, String userId) {
+        SENT_LOG.add(channel + ":" + userId);
+    }
+
     public static int priorityLevel(String p) {
         int idx = PRIORITY_ORDER.indexOf(p);
         return idx < 0 ? 0 : idx;
     }
 
-    public static void reset_service() {}
-
-    public static void notify_event(String event, List<String> userIds, List<String> subscribedChannels) {
+    private static List<User> buildUsers(List<String> userIds, List<String> subscribedChannels) {
         List<User> users = new ArrayList<>();
         for (String uid : userIds) {
             users.add(new User(uid, uid + "@test.com", "+1-555-0000",
                     new ArrayList<>(subscribedChannels)));
         }
+        return users;
+    }
+
+    public static void reset_service() {
+        SENT_LOG.clear();
+    }
+
+    public static void notify_event(String event, List<String> userIds, List<String> subscribedChannels) {
         NotificationManager mgr = new NotificationManager();
         mgr.subscribe(new EmailNotifier());
         mgr.subscribe(new SMSNotifier());
         mgr.subscribe(new PushNotifier());
-        mgr.notify(event, users);
+        mgr.notify(event, buildUsers(userIds, subscribedChannels));
     }
 
     public static void notify_priority(String event, String priority,
                                        List<String> userIds, List<String> subscribedChannels,
                                        String minPriority) {
-        List<User> users = new ArrayList<>();
-        for (String uid : userIds) {
-            users.add(new User(uid, uid + "@test.com", "+1-555-0000",
-                    new ArrayList<>(subscribedChannels)));
-        }
         String minP = (minPriority == null || minPriority.isEmpty()) ? "promotional" : minPriority;
         NotificationManager mgr = new NotificationManager();
         mgr.subscribe(new PriorityFilteredObserver(new EmailNotifier(), minP));
         mgr.subscribe(new PriorityFilteredObserver(new SMSNotifier(), minP));
         mgr.subscribe(new PriorityFilteredObserver(new PushNotifier(), minP));
-        mgr.notifyAll(event, priority, users);
+        mgr.notifyAll(event, priority, buildUsers(userIds, subscribedChannels));
     }
 
     public static int notify_priority_level(String priority) {
         return priorityLevel(priority);
+    }
+
+    public static List<String> get_sent_log() {
+        return new ArrayList<>(SENT_LOG);
     }
 }

@@ -16,6 +16,11 @@ function notify_event(event, userIds, subscribedChannels) {
   return null;
 }
 
+function get_sent_log() {
+  // TODO: implement this
+  return null;
+}
+
 function notify_priority(event, priority, userIds, subscribedChannels, minPriority) {
   // TODO: implement this
   return null;
@@ -27,4 +32,4 @@ function notify_priority_level(priority) {
 }
 
 // ── Export everything the test runner needs (do not remove) ──
-module.exports = { reset_service, notify_event, notify_priority, notify_priority_level };
+module.exports = { reset_service, notify_event, get_sent_log, notify_priority, notify_priority_level };

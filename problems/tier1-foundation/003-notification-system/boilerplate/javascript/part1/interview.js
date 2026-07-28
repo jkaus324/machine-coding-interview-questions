@@ -4,6 +4,7 @@
 // Required functions:
 //   function reset_service()
 //   function notify_event(event, userIds, subscribedChannels)
+//   function get_sent_log()
 
 function reset_service() {
   // TODO: write your solution
@@ -15,6 +16,11 @@ function notify_event(event, userIds, subscribedChannels) {
   return null;
 }
 
+function get_sent_log() {
+  // TODO: write your solution
+  return null;
+}
+
 // ── Export everything the test runner needs (do not remove) ──
 // If you add classes (e.g. strategy subclasses), add them here too.
-module.exports = { reset_service, notify_event };
+module.exports = { reset_service, notify_event, get_sent_log };

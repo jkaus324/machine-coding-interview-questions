@@ -5,7 +5,7 @@
 using namespace std;
 
 
-// Data class (given — do not modify).
+// Data class (given â€” do not modify).
 
 void reset_service() {
     // TODO: implement this
@@ -15,4 +15,9 @@ void reset_service() {
 void notify_event(string event, vector<string> userIds, vector<string> subscribedChannels) {
     // TODO: implement this
     // nothing to return
+}
+
+vector<string> get_sent_log() {
+    // TODO: implement this
+    return {};
 }

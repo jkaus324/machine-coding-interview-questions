@@ -16,5 +16,10 @@ function notify_event(event, userIds, subscribedChannels) {
   return null;
 }
 
+function get_sent_log() {
+  // TODO: implement this
+  return null;
+}
+
 // ── Export everything the test runner needs (do not remove) ──
-module.exports = { reset_service, notify_event };
+module.exports = { reset_service, notify_event, get_sent_log };
