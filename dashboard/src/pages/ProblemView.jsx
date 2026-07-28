@@ -637,7 +637,7 @@ export default function ProblemView({ onProgressChange }) {
         >
           {/* Back */}
           <button
-            onClick={() => navigate('/')}
+            onClick={() => navigate('/problems')}
             className="flex items-center gap-1 text-text-tertiary hover:text-text-primary transition-colors text-xs font-medium flex-shrink-0"
           >
             <ChevronLeft />
