@@ -1,6 +1,6 @@
 package main
 
-// Data class (given — do not modify).
+// Data class (given â€” do not modify).
 type PaymentMethod struct {
 	name string
 	cashbackRate float64
@@ -9,7 +9,7 @@ type PaymentMethod struct {
 	easyRefundEligible bool
 }
 
-// RankingStrategy — implement this interface with your own strategy types.
+// RankingStrategy â€” implement this interface with your own strategy types.
 type RankingStrategy interface {
 	// TODO: define the method(s) your strategies share.
 }

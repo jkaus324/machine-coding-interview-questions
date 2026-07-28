@@ -2,67 +2,67 @@
 
 // HINT: introduce an abstraction so new rules don't change existing code.
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 function reset_service() {
   // TODO: write your solution
   return null;
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 function ir_add_agent(id, name, specialization) {
   // TODO: write your solution
   return null;
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 function ir_assign_issue_round_robin(description, category, priority) {
   // TODO: write your solution
   return null;
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 function ir_agent_issue_count(agentId) {
   // TODO: write your solution
   return null;
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 function ir_agent_load(agentId) {
   // TODO: write your solution
   return null;
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 function ir_assign_issue_least_loaded(description, category, priority) {
   // TODO: write your solution
   return null;
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 function ir_assign_issue_specialist(description, category, priority) {
   // TODO: write your solution
   return null;
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 function ir_transition(issueId, newState) {
   // TODO: write your solution
   return null;
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 function ir_get_issue_state(issueId) {
   // TODO: write your solution
   return null;
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 function ir_log_size() {
   // TODO: write your solution
   return null;
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 function ir_log_entry(idx) {
   // TODO: write your solution
   return null;

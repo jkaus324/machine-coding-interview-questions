@@ -12,7 +12,7 @@ type SplitOp struct {
 
 // HINT: introduce an abstraction so new rules don't change existing code.
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 func splitwise_simulate(ops []SplitOp) []string {
 	// TODO: write your solution
 	return nil

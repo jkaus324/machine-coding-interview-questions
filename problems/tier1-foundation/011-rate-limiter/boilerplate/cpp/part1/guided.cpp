@@ -7,28 +7,28 @@ using namespace std;
 
 // Data class (given).
 
-// HINT: introduce an abstraction so new ranking rules don't change existing code.
-// HINT: keep the comparator small — one rule per class.
+// HINT: introduce an abstraction so new variants don't change existing code.
+// HINT: keep each piece small â€” one responsibility per class.
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 void reset_service() {
     // TODO: write your solution
     // nothing to return
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 void init_limiter(int maxRequests, int windowSize) {
     // TODO: write your solution
     // nothing to return
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 bool allow_request_simple(string clientId, int timestamp, string endpoint) {
     // TODO: write your solution
     return {};
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 int get_request_count(string clientId) {
     // TODO: write your solution
     return {};

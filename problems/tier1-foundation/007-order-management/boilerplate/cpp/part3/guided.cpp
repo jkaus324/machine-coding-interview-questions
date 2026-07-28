@@ -7,82 +7,82 @@ using namespace std;
 
 // Data class (given).
 
-// HINT: introduce an abstraction so new ranking rules don't change existing code.
-// HINT: keep the comparator small — one rule per class.
+// HINT: introduce an abstraction so new variants don't change existing code.
+// HINT: keep each piece small â€” one responsibility per class.
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 void reset_service() {
     // TODO: write your solution
     // nothing to return
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 void set_inventory(string productId, int qty) {
     // TODO: write your solution
     // nothing to return
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 int get_inventory(string productId) {
     // TODO: write your solution
     return {};
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 string create_order_simple(string productId, int quantity, double totalAmount) {
     // TODO: write your solution
     return {};
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 string get_order_state_str(string orderId) {
     // TODO: write your solution
     return {};
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 bool confirm_order(string orderId) {
     // TODO: write your solution
     return {};
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 bool ship_order(string orderId) {
     // TODO: write your solution
     return {};
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 bool deliver_order(string orderId) {
     // TODO: write your solution
     return {};
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 bool cancel_order(string orderId) {
     // TODO: write your solution
     return {};
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 int get_history_size(string orderId) {
     // TODO: write your solution
     return {};
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 void om_attach_observer() {
     // TODO: write your solution
     // nothing to return
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 int om_observer_count() {
     // TODO: write your solution
     return {};
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 string om_observer_last_to() {
     // TODO: write your solution
     return {};

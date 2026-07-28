@@ -7,70 +7,70 @@ using namespace std;
 
 // Data class (given).
 
-// HINT: introduce an abstraction so new ranking rules don't change existing code.
-// HINT: keep the comparator small — one rule per class.
+// HINT: introduce an abstraction so new variants don't change existing code.
+// HINT: keep each piece small â€” one responsibility per class.
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 void reset_service() {
     // TODO: write your solution
     // nothing to return
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 void reset() {
     // TODO: write your solution
     // nothing to return
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 string getState() {
     // TODO: write your solution
     return {};
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 void selectItem(string item) {
     // TODO: write your solution
     // nothing to return
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 void insertMoney(double amount) {
     // TODO: write your solution
     // nothing to return
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 void dispense() {
     // TODO: write your solution
     // nothing to return
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 void cancel() {
     // TODO: write your solution
     // nothing to return
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 void enterMaintenance(string pin) {
     // TODO: write your solution
     // nothing to return
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 void exitMaintenance(string pin) {
     // TODO: write your solution
     // nothing to return
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 void restock(string item, int qty) {
     // TODO: write your solution
     // nothing to return
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 int vm_get_quantity(string item) {
     // TODO: write your solution
     return {};

@@ -5,7 +5,7 @@
 using namespace std;
 
 
-// Data class (given — do not modify).
+// Data class (given â€” do not modify).
 struct Op {
     string kind;
     string s1;

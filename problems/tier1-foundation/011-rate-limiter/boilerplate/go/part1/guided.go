@@ -4,25 +4,25 @@ package main
 
 // HINT: introduce an abstraction so new rules don't change existing code.
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 func reset_service() {
 	// TODO: write your solution
 	return
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 func init_limiter(maxRequests int, windowSize int) {
 	// TODO: write your solution
 	return
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 func allow_request_simple(clientId string, timestamp int, endpoint string) bool {
 	// TODO: write your solution
 	return false
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 func get_request_count(clientId string) int {
 	// TODO: write your solution
 	return 0

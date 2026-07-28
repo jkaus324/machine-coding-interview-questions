@@ -2,67 +2,67 @@
 
 // HINT: introduce an abstraction so new rules don't change existing code.
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 function reset_service() {
   // TODO: write your solution
   return null;
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 function reset() {
   // TODO: write your solution
   return null;
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 function getState() {
   // TODO: write your solution
   return null;
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 function selectItem(item) {
   // TODO: write your solution
   return null;
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 function insertMoney(amount) {
   // TODO: write your solution
   return null;
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 function dispense() {
   // TODO: write your solution
   return null;
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 function cancel() {
   // TODO: write your solution
   return null;
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 function enterMaintenance(pin) {
   // TODO: write your solution
   return null;
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 function exitMaintenance(pin) {
   // TODO: write your solution
   return null;
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 function restock(item, qty) {
   // TODO: write your solution
   return null;
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 function vm_get_quantity(item) {
   // TODO: write your solution
   return null;

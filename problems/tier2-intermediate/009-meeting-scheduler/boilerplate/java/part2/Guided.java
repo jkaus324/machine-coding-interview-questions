@@ -25,9 +25,9 @@ class Op {
     }
 }
 
-// HINT: introduce an abstraction so new ranking rules don't change existing code.
+// HINT: introduce an abstraction so new variants don't change existing code.
 public class Solution {
-    // HINT: pick the field that defines 'better' for this ranking and compare the two.
+    // HINT: start from what this must return, then work backwards to the state it needs.
     public static List<String> meeting_simulate(List<Op> ops) {
         // TODO: write your solution
         return null;

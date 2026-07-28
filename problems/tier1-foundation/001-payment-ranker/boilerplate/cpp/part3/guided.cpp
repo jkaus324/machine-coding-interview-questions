@@ -19,34 +19,34 @@ struct PaymentMethod {
 // Forward declaration so signatures compile; design and implement your own.
 class RankingStrategy;
 
-// HINT: introduce an abstraction so new ranking rules don't change existing code.
-// HINT: keep the comparator small — one rule per class.
+// HINT: introduce an abstraction so new variants don't change existing code.
+// HINT: keep each piece small â€” one responsibility per class.
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 vector<PaymentMethod> rank_by_rewards(vector<PaymentMethod> methods) {
     // TODO: write your solution
     return methods;
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 vector<PaymentMethod> rank_by_low_fee(vector<PaymentMethod> methods) {
     // TODO: write your solution
     return methods;
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 vector<PaymentMethod> rank_by_trust(vector<PaymentMethod> methods) {
     // TODO: write your solution
     return methods;
 }
 
-// HINT: think about how to compose multiple criteria into a single decision.
+// HINT: you're handed a list of interchangeable behaviours â€” call them all through one interface.
 vector<PaymentMethod> rank_composite(vector<PaymentMethod> methods, vector<RankingStrategy*> criteria) {
     // TODO: write your solution
     return methods;
 }
 
-// HINT: a boolean flag changes ranking — handle it as a separate piece you can chain.
+// HINT: a flag that changes behaviour is its own concern â€” keep it a separate piece you can chain.
 vector<PaymentMethod> rank_with_refund_filter(vector<PaymentMethod> methods, bool preferEasyRefund) {
     // TODO: write your solution
     return methods;

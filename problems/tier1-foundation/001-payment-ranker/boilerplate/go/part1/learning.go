@@ -1,6 +1,6 @@
 package main
 
-// Data class (given — do not modify).
+// Data class (given â€” do not modify).
 type PaymentMethod struct {
 	name string
 	cashbackRate float64

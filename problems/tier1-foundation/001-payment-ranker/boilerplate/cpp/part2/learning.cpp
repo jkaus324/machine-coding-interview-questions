@@ -5,7 +5,7 @@
 using namespace std;
 
 
-// Data class (given — do not modify).
+// Data class (given â€” do not modify).
 struct PaymentMethod {
     string name;
     double cashbackRate;
@@ -16,14 +16,14 @@ struct PaymentMethod {
       : name(name_), cashbackRate(cashbackRate_), transactionFee(transactionFee_), usageCount(usageCount_), easyRefundEligible(easyRefundEligible_) {}
 };
 
-// RankingStrategy — strategy interface (given). Implement compare() in each concrete type.
+// RankingStrategy â€” strategy interface (given). Implement compare() in each concrete type.
 class RankingStrategy {
 public:
     virtual bool compare(const PaymentMethod& a, const PaymentMethod& b) = 0;
     virtual ~RankingStrategy() = default;
 };
 
-// Concrete strategies — fill in compare() bodies.
+// Concrete strategies â€” fill in compare() bodies.
 class RewardsMaximizer : public RankingStrategy {
 public:
     bool compare(const PaymentMethod& a, const PaymentMethod& b) override {

@@ -15,22 +15,22 @@ struct CartItem {
       : name(name_), price(price_), quantity(quantity_), category(category_) {}
 };
 
-// HINT: introduce an abstraction so new ranking rules don't change existing code.
-// HINT: keep the comparator small — one rule per class.
+// HINT: introduce an abstraction so new variants don't change existing code.
+// HINT: keep each piece small â€” one responsibility per class.
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 double apply_percentage_discount(vector<CartItem> cart, double percentage) {
     // TODO: write your solution
     return {};
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 double apply_flat_discount(vector<CartItem> cart, double amount) {
     // TODO: write your solution
     return {};
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 double apply_bogo(vector<CartItem> cart, int buyCount, int freeCount) {
     // TODO: write your solution
     return {};

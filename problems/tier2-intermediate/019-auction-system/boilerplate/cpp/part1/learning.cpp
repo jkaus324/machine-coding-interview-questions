@@ -5,7 +5,7 @@
 using namespace std;
 
 
-// Data class (given — do not modify).
+// Data class (given â€” do not modify).
 struct AuctionOp {
     string kind;
     string s1;

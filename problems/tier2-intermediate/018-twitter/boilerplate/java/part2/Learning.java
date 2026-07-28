@@ -1,6 +1,6 @@
 import java.util.*;
 
-// Data class (given — do not modify).
+// Data class (given â€” do not modify).
 class TwitterOp {
     public String kind;
     public int i1;

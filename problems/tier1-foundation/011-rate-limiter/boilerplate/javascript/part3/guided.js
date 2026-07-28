@@ -2,37 +2,37 @@
 
 // HINT: introduce an abstraction so new rules don't change existing code.
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 function reset_service() {
   // TODO: write your solution
   return null;
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 function init_limiter(maxRequests, windowSize) {
   // TODO: write your solution
   return null;
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 function allow_request_simple(clientId, timestamp, endpoint) {
   // TODO: write your solution
   return null;
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 function get_request_count(clientId) {
   // TODO: write your solution
   return null;
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 function allow_request_with_strategy_simple(algorithm, clientId, timestamp, endpoint) {
   // TODO: write your solution
   return null;
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 function allow_request_for_tier_str(tier, clientId, timestamp, endpoint) {
   // TODO: write your solution
   return null;

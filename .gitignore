@@ -3,7 +3,12 @@ dashboard/node_modules/
 dashboard/dist/
 progress.json
 progress.json.bak
+progress.json.pre-cleanup.bak
 .DS_Store
+
+# Python bytecode — py_compile on boilerplate stubs drops these in-tree
+__pycache__/
+*.pyc
 
 # E2E suite — runtime artifacts
 e2e/runs/

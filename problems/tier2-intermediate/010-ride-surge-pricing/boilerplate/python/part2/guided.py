@@ -14,14 +14,14 @@ class RideRequest:
         self.dropoff = dropoff
         self.rideType = rideType
 
-# HINT: introduce an abstraction so new ranking rules don't change existing code.
+# HINT: introduce an abstraction so new variants don't change existing code.
 
-# HINT: pick the field that defines 'better' for this ranking and compare the two.
+# HINT: start from what this must return, then work backwards to the state it needs.
 def calculateSurge(ctx):
     # TODO: write your solution
     return None
 
-# HINT: pick the field that defines 'better' for this ranking and compare the two.
+# HINT: start from what this must return, then work backwards to the state it needs.
 def calculateFare(req, ctx):
     # TODO: write your solution
     return None

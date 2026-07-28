@@ -24,27 +24,27 @@ class PaymentMethod {
 // Marker interface so signatures compile; you supply the methods.
 interface RankingStrategy {}
 
-// HINT: introduce an abstraction so new ranking rules don't change existing code.
+// HINT: introduce an abstraction so new variants don't change existing code.
 public class Solution {
-    // HINT: pick the field that defines 'better' for this ranking and compare the two.
+    // HINT: start from what this must return, then work backwards to the state it needs.
     public static List<PaymentMethod> rank_by_rewards(List<PaymentMethod> methods) {
         // TODO: write your solution
         return methods;
     }
 
-    // HINT: pick the field that defines 'better' for this ranking and compare the two.
+    // HINT: start from what this must return, then work backwards to the state it needs.
     public static List<PaymentMethod> rank_by_low_fee(List<PaymentMethod> methods) {
         // TODO: write your solution
         return methods;
     }
 
-    // HINT: pick the field that defines 'better' for this ranking and compare the two.
+    // HINT: start from what this must return, then work backwards to the state it needs.
     public static List<PaymentMethod> rank_by_trust(List<PaymentMethod> methods) {
         // TODO: write your solution
         return methods;
     }
 
-    // HINT: think about how to compose multiple criteria into a single decision.
+    // HINT: you're handed a list of interchangeable behaviours — call them all through one interface.
     public static List<PaymentMethod> rank_composite(List<PaymentMethod> methods, List<RankingStrategy> criteria) {
         // TODO: write your solution
         return methods;

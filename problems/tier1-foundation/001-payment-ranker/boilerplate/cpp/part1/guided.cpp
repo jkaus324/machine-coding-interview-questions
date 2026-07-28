@@ -16,22 +16,22 @@ struct PaymentMethod {
       : name(name_), cashbackRate(cashbackRate_), transactionFee(transactionFee_), usageCount(usageCount_), easyRefundEligible(easyRefundEligible_) {}
 };
 
-// HINT: introduce an abstraction so new ranking rules don't change existing code.
-// HINT: keep the comparator small — one rule per class.
+// HINT: introduce an abstraction so new variants don't change existing code.
+// HINT: keep each piece small â€” one responsibility per class.
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 vector<PaymentMethod> rank_by_rewards(vector<PaymentMethod> methods) {
     // TODO: write your solution
     return methods;
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 vector<PaymentMethod> rank_by_low_fee(vector<PaymentMethod> methods) {
     // TODO: write your solution
     return methods;
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 vector<PaymentMethod> rank_by_trust(vector<PaymentMethod> methods) {
     // TODO: write your solution
     return methods;

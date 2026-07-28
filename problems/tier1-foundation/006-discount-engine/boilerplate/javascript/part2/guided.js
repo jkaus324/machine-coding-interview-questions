@@ -10,19 +10,19 @@ class CartItem {
 
 // HINT: introduce an abstraction so new rules don't change existing code.
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 function apply_percentage_discount(cart, percentage) {
   // TODO: write your solution
   return null;
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 function apply_flat_discount(cart, amount) {
   // TODO: write your solution
   return null;
 }
 
-// HINT: pick the field that defines 'better' for this ranking and compare the two.
+// HINT: start from what this must return, then work backwards to the state it needs.
 function apply_bogo(cart, buyCount, freeCount) {
   // TODO: write your solution
   return null;
